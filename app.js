@@ -105,7 +105,7 @@ function arrayLoadToCard( Array,id) {
                 <p class="card-text">LKR:${item.price}</p>
                 ${item.discount ? `<p>Discount: ${item.discount}%</p>` : ''}
               </div>
-              <div class="card-footer d-flex justify-content-evenly mb-2">
+              <div class="card-footer d-flex justify-content-evenly">
               ${id < 10 ? `
                 <a href="#" class="btn btn-sm btn-primary">Update</a>
                 <a href="#" class="btn btn-sm btn-danger">Delete</a>
