@@ -64,7 +64,7 @@ const beveragesArray = [
   { code: 'B1047', name: 'Mirinda (330ml)', price: 850, discount: 7, image: 'img/mirinda.jpeg' },
 ];
 
-const Menu=[
+const Menu = [
   { code: 'B1001', name: 'Classic Burger (Large)', price: 750, image: 'img/Classic Burger .jpg' },
   { code: 'B1002', name: 'Classic Burger (Regular)', price: 1500, discount: 15, image: 'img/Classic Burger .jpg' },
   { code: 'B1003', name: 'Turkey Burger', price: 1600, image: 'img/Turkey Burger.jpg' },
@@ -93,7 +93,7 @@ const Menu=[
   { code: 'B1027', name: 'French Fries (Large) ', price: 800, image: 'img/French-Fries-.jpg' },
   { code: 'B1028', name: 'French Fries (Medium', price: 650, image: 'img/French-Fries-.jpg' },
   { code: 'B1029', name: 'French Fries (Small) ', price: 450, image: 'img/French-Fries-.jpg' },
-  { code: 'B1030', name: 'Sweet Potato Fries (Large) ', price: 600, image: 'img/baked-sweet-potato-fries-12.jpg' }, 
+  { code: 'B1030', name: 'Sweet Potato Fries (Large) ', price: 600, image: 'img/baked-sweet-potato-fries-12.jpg' },
   { code: 'B1031', name: 'Chicken n Cheese Pasta ', price: 1600, discount: 15, image: 'img/download (2).jpeg' },
   { code: 'B1032', name: 'Chicken Penne Pasta ', price: 1700, image: 'img/download (1).jpeg' },
   { code: 'B1033', name: 'Ground Turkey Pasta Bake ', price: 2900, discount: 10, image: 'img/download (3).jpeg' },
@@ -113,32 +113,33 @@ const Menu=[
   { code: 'B1047', name: 'Mirinda (330ml)', price: 850, discount: 7, image: 'img/mirinda.jpeg' },
 ];
 
-     
-
-  
-function btnBurgers(id){
+function btnBurgers(id) {
   console.log(id)
-  arrayLoadToCard(burgerArray,id);
+  arrayLoadToCard(burgerArray, id);
 }
 function btnSubmarine(id) {
   arrayLoadToCard(submarineArray);
- }
-function btnpasta(id) { 
+}
+function btnpasta(id) {
   arrayLoadToCard(pastaArray);
 }
 function btnFries(id) {
   arrayLoadToCard(friesArray);
- }
-function btnChicken(id) { 
+}
+function btnChicken(id) {
   arrayLoadToCard(chickenArray);
 }
-function btnBeverages(id) { 
+function btnBeverages(id) {
   arrayLoadToCard(beveragesArray);
 }
-function btnAddItem() {}
+function btnOrderPage(id) {
+  arrayLoadToCard(Menu, id);
+  console.log(id)
 
-function arrayLoadToCard( Array,id) {
-  
+}
+
+function arrayLoadToCard(Array, id) {
+
   const container = document.getElementById("itemsContainer");
   container.innerHTML = "";
   const row = document.createElement("div");
@@ -176,14 +177,47 @@ function arrayLoadToCard( Array,id) {
   container.appendChild(row);
 }
 
-function btnOrderPage(id){
-  arrayLoadToCard(Menu,id);
-  console.log(id)
+function btnSearch() {
+  let value = document.getElementById("searchNavbar").value;
+  console.log(value);
+  let i = 0;
+  for (let index = 0; index < Menu.length; index++) {
+    if (value === Menu[index].code || value === Menu[index].name) {
+      console.log(Menu[index]);
+      loadsearchItem(index);
+      break;
+    }
+    i++;
+  }
+  if (i > 45) {
+    alert(value + " is Unavailable!");
+    console.log("item no")
+  }
 
 }
 
+function loadsearchItem(index) {
+  const card = document.getElementById("itemsContainer");
 
-function btnAddToCart(){
+  const cardBody = `
+  <div class="card " style="width: 18rem;">
+  <img src="${Menu[index].image}" class="card-img-top img-fluid" alt="${Menu[index].name}"
+     style="width: 100%; height: 150px; object-fit: cover;">
+  <div class="card-body h-25">
+    <h5 class="card-title">${Menu[index].name}</h5>
+    <p class="card-text">${Menu[index].code}</p>
+    <p class="card-text">LKR:${Menu[index].price}</p>
+    ${Menu[index].discount ? `<p>Discount: ${Menu[index].discount}%</p>` : ''}
+  </div>
+  <div class="card-footer d-flex justify-content-evenly">
+ <a href="#" class="btn btn-sm btn-primary " onclick="btnAddToCart()">Add to Cart</a>
+  </div>
+</div>
+`;
+  card.innerHTML = cardBody
+}
+
+function btnAddToCart() {
   console.log("done")
 
 }
