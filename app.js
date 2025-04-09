@@ -1,4 +1,4 @@
-const burgerArray = [
+let burgerArray = [
   { code: 'B1001', name: 'Classic Burger (Large)', price: 750, image: 'img/Classic Burger .jpg' },
   { code: 'B1002', name: 'Classic Burger (Regular)', price: 1500, discount: 15, image: 'img/Classic Burger .jpg' },
   { code: 'B1003', name: 'Turkey Burger', price: 1600, image: 'img/Turkey Burger.jpg' },
@@ -15,7 +15,7 @@ const burgerArray = [
   { code: 'B1015', name: 'Paneer Burger', price: 1900, discount: 10, image: 'img/5 Paneer Burger.jpg' },
 ];
 
-const submarineArray = [
+let submarineArray = [
   { code: 'B116', name: 'Crispy Chicken Submarine (Large) ', price: 2000, image: 'img/Crispy Chicken Submarine.jpg' },
   { code: 'B1017', name: 'Crispy Chicken Submarine (Regular) ', price: 1500, image: 'img/Crispy Chicken Submarine.jpg' },
   { code: 'B1018', name: 'Chicken Submarine (Large)', price: 1800, discount: 3, image: 'img/Chicken Submarine.jpg' },
@@ -27,7 +27,7 @@ const submarineArray = [
   { code: 'B1024', name: 'MOS Special Submarine ', price: 3000, image: 'img/OS Special Submarin.jpg' },
 ];
 
-const friesArray = [
+let friesArray = [
   { code: 'B1025', name: 'Steak Fries (Large) ', price: 1200, image: 'img/Steak Fries 2.jpg' },
   { code: 'B1026', name: 'Steak Fries (Medium)', price: 600, image: 'img/Steak Fries 2.jpg' },
   { code: 'B1027', name: 'French Fries (Large) ', price: 800, image: 'img/French-Fries-.jpg' },
@@ -35,7 +35,7 @@ const friesArray = [
   { code: 'B1029', name: 'French Fries (Small) ', price: 450, image: 'img/French-Fries-.jpg' },
   { code: 'B1030', name: 'Sweet Potato Fries (Large) ', price: 600, image: 'img/baked-sweet-potato-fries-12.jpg' },
 ];
-const pastaArray = [
+let pastaArray = [
   { code: 'B1031', name: 'Chicken n Cheese Pasta ', price: 1600, discount: 15, image: 'img/download (2).jpeg' },
   { code: 'B1032', name: 'Chicken Penne Pasta ', price: 1700, image: 'img/download (1).jpeg' },
   { code: 'B1033', name: 'Ground Turkey Pasta Bake ', price: 2900, discount: 10, image: 'img/download (3).jpeg' },
@@ -46,7 +46,7 @@ const pastaArray = [
 
 ];
 
-const chickenArray = [
+let chickenArray = [
   { code: 'B1038', name: 'Fried Chicken (Small) ', price: 1200, image: 'img/fried chicken.jpeg' },
   { code: 'B1039', name: 'Fried Chicken (Regular) ', price: 2300, discount: 10, image: 'img/fried chicken.jpeg' },
   { code: 'B1040', name: 'Fried Chicken (Large) ', price: 3100, discount: 5, image: 'img/fried chicken.jpeg' },
@@ -57,14 +57,14 @@ const chickenArray = [
 
 ];
 
-const beveragesArray = [
+let beveragesArray = [
   { code: 'B1044', name: 'Pepsi (330ml) ', price: 990, discount: 5, image: 'img/pepsi.jpeg' },
   { code: 'B1045', name: 'Coca-Cola (330ml) ', price: 1230, image: 'img/coca.jpeg' },
   { code: 'B1046', name: 'Sprite (330ml) ', price: 1500, discount: 3, image: 'img/sprite.jpeg' },
   { code: 'B1047', name: 'Mirinda (330ml)', price: 850, discount: 7, image: 'img/mirinda.jpeg' },
 ];
 
-const Menu = [
+let Menu = [
   { code: 'B1001', name: 'Classic Burger (Large)', price: 750, image: 'img/Classic Burger .jpg' },
   { code: 'B1002', name: 'Classic Burger (Regular)', price: 1500, discount: 15, image: 'img/Classic Burger .jpg' },
   { code: 'B1003', name: 'Turkey Burger', price: 1600, image: 'img/Turkey Burger.jpg' },
@@ -118,19 +118,19 @@ function btnBurgers(id) {
   arrayLoadToCard(burgerArray, id);
 }
 function btnSubmarine(id) {
-  arrayLoadToCard(submarineArray);
+  arrayLoadToCard(submarineArray,id);
 }
 function btnpasta(id) {
-  arrayLoadToCard(pastaArray);
+  arrayLoadToCard(pastaArray,id);
 }
 function btnFries(id) {
-  arrayLoadToCard(friesArray);
+  arrayLoadToCard(friesArray,id);
 }
 function btnChicken(id) {
-  arrayLoadToCard(chickenArray);
+  arrayLoadToCard(chickenArray),id;
 }
 function btnBeverages(id) {
-  arrayLoadToCard(beveragesArray);
+  arrayLoadToCard(beveragesArray,id);
 }
 function btnOrderPage(id) {
   arrayLoadToCard(Menu, id);
@@ -138,7 +138,7 @@ function btnOrderPage(id) {
 
 }
 
-function arrayLoadToCard(Array, id) {
+function arrayLoadToCard(Array,id) {
 
   const container = document.getElementById("itemsContainer");
   container.innerHTML = "";
@@ -164,7 +164,7 @@ function arrayLoadToCard(Array, id) {
                 <a href="#" class="btn btn-sm btn-primary" onclick="btnUpdateItem()">Update</a>
                 <a href="#" class="btn btn-sm btn-danger" onclick="btndeleteItem()">Delete</a>
               ` : `
-                <a href="#" class="btn btn-sm btn-primary " onclick="btnAddToCart()">Add to Cart</a>
+                <a href="#" class="btn btn-sm btn-primary " onclick="btnAddToCart(${index}) ">Add to Cart</a>
               `}
               
               </div>
@@ -197,9 +197,9 @@ function btnSearch() {
 }
 
 function loadsearchItem(index) {
-  const card = document.getElementById("itemsContainer");
-
-  const cardBody = `
+ // console.log(i);
+  let card = document.getElementById("itemsContainer");
+  let cardBody = `
   <div class="card " style="width: 18rem;">
   <img src="${Menu[index].image}" class="card-img-top img-fluid" alt="${Menu[index].name}"
      style="width: 100%; height: 150px; object-fit: cover;">
@@ -210,19 +210,25 @@ function loadsearchItem(index) {
     ${Menu[index].discount ? `<p>Discount: ${Menu[index].discount}%</p>` : ''}
   </div>
   <div class="card-footer d-flex justify-content-evenly">
- <a href="#" class="btn btn-sm btn-primary " onclick="btnAddToCart()">Add to Cart</a>
+  
+ <a href="#" class="btn btn-sm btn-primary " onclick="btnAddToCart(${index})">Add to Cart</a>
   </div>
 </div>
 `;
   card.innerHTML = cardBody
 }
 
-function btnAddToCart() {
-  console.log("done")
-
+function btnAddToCart(index) {
+  console.log(index);
+  let cartTable=document.getElementById("cartbody");
+  let row = cartTable.insertRow(0);
+  let cell1=row.insertCell(0);
+  let cell2=row.insertCell(1);
+  let cell3=row.insertCell(2);
+  
+cell1.innerHTML=Menu[index].name;
+cell2.innerHTML=Menu[index].code;
+cell3.innerHTML=Menu[index].price+".00";
 }
-
-
-
 
 
