@@ -67,7 +67,8 @@ let beveragesArray = [
 let Menu = burgerArray.concat(submarineArray, friesArray, pastaArray, chickenArray, beveragesArray);
 
 let currentItemList = [];
-
+let amount=0;
+let Disccount =0;
 
 function btnBurgers(id) {
   console.log(id)
@@ -83,7 +84,7 @@ function btnFries(id) {
   arrayLoadToCard(friesArray, id);
 }
 function btnChicken(id) {
-  arrayLoadToCard(chickenArray, id);
+  arrayLoadToCard(chickenArray,id);
 }
 function btnBeverages(id) {
   arrayLoadToCard(beveragesArray, id);
@@ -174,11 +175,11 @@ function loadsearchItem(index) {
 
 
 function btnAddToCart(index) {
-  
+
   let code = currentItemList[index].code;
   let cartTable = document.getElementById("cartbody");
   let found = false;
-
+let qty=1;
   for (let i = 0; i < cartTable.rows.length; i++) {
     let row = cartTable.rows[i];
     let cellCode = row.cells[1].innerText;
@@ -186,6 +187,7 @@ function btnAddToCart(index) {
     if (code === cellCode) {
       let currentQty = parseInt(row.cells[3].innerText);
       row.cells[3].innerText = currentQty + 1;
+      qty=currentQty + 1;
       found = true;
       break;
     }
@@ -203,10 +205,31 @@ function btnAddToCart(index) {
     cell1.innerHTML = currentItemList[index].name;
     cell2.innerHTML = currentItemList[index].code;
     cell3.innerHTML = currentItemList[index].price + ".00";
-    cell4.innerHTML = 1;
-
-
+    cell4.innerHTML = qty;
   }
+calculatePrice(currentItemList[index].price,1,currentItemList[index].discount);
 }
 
 
+function calculatePrice(price,qty,discount){
+
+  let discountedPrice = price;
+let tempdiscount=0;
+  if (discount != null && discount > 0) {
+    discountedPrice = price - (price * discount) / 100;
+    tempdiscount += (price * qty) - (discountedPrice * qty);
+  }
+
+  amount += discountedPrice * qty;
+  Disccount+=tempdiscount;
+
+let printPrice=document.getElementById("printTot");
+printPrice.innerHTML = "LKR " + amount.toLocaleString() + ".00";
+let printDis=document.getElementById("printDis");
+printDis.innerHTML = "LKR " + Disccount.toLocaleString() + ".00";
+
+console.log(amount)
+}
+function btnPlaceOrder(){
+  window.location="placeOrder.html"
+}
