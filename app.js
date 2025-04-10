@@ -1,3 +1,12 @@
+let instance = false;
+let currentItemList = [];
+let amount = 0;
+let Discount = 0;
+
+
+
+
+
 let burgerArray = [
   { code: 'B1001', name: 'Classic Burger (Large)', price: 750, image: 'img/Classic Burger .jpg' },
   { code: 'B1002', name: 'Classic Burger (Regular)', price: 1500, discount: 15, image: 'img/Classic Burger .jpg' },
@@ -66,9 +75,7 @@ let beveragesArray = [
 
 let Menu = burgerArray.concat(submarineArray, friesArray, pastaArray, chickenArray, beveragesArray);
 
-let currentItemList = [];
-let amount=0;
-let Disccount =0;
+
 
 function btnBurgers(id) {
   console.log(id)
@@ -84,7 +91,7 @@ function btnFries(id) {
   arrayLoadToCard(friesArray, id);
 }
 function btnChicken(id) {
-  arrayLoadToCard(chickenArray,id);
+  arrayLoadToCard(chickenArray, id);
 }
 function btnBeverages(id) {
   arrayLoadToCard(beveragesArray, id);
@@ -174,12 +181,21 @@ function loadsearchItem(index) {
 }
 
 
+
+window.onload = function () {
+ //document.getElementById("btnPlaceOrder").disabled=true;
+};
+
+let itemList = [{ name: "" }, { code: "" }, { qty: "" }, { price: "" }];
+
+
 function btnAddToCart(index) {
+ 
 
   let code = currentItemList[index].code;
   let cartTable = document.getElementById("cartbody");
   let found = false;
-let qty=1;
+  let qty = 1;
   for (let i = 0; i < cartTable.rows.length; i++) {
     let row = cartTable.rows[i];
     let cellCode = row.cells[1].innerText;
@@ -187,7 +203,7 @@ let qty=1;
     if (code === cellCode) {
       let currentQty = parseInt(row.cells[3].innerText);
       row.cells[3].innerText = currentQty + 1;
-      qty=currentQty + 1;
+      qty = currentQty + 1;
       found = true;
       break;
     }
@@ -206,30 +222,93 @@ let qty=1;
     cell2.innerHTML = currentItemList[index].code;
     cell3.innerHTML = currentItemList[index].price + ".00";
     cell4.innerHTML = qty;
+    itemList.push(currentItemList[index].name, currentItemList[index].code, qty, currentItemList[index].price + ".00");
   }
-calculatePrice(currentItemList[index].price,1,currentItemList[index].discount);
+  calculatePrice(currentItemList[index].price, 1, currentItemList[index].discount);
 }
 
-
-function calculatePrice(price,qty,discount){
-
+function calculatePrice(price, qty, discount) {
   let discountedPrice = price;
-let tempdiscount=0;
+  let tempdiscount = 0;
   if (discount != null && discount > 0) {
     discountedPrice = price - (price * discount) / 100;
     tempdiscount += (price * qty) - (discountedPrice * qty);
   }
-
   amount += discountedPrice * qty;
-  Disccount+=tempdiscount;
+  Discount += tempdiscount;
 
-let printPrice=document.getElementById("printTot");
-printPrice.innerHTML = "LKR " + amount.toLocaleString() + ".00";
-let printDis=document.getElementById("printDis");
-printDis.innerHTML = "LKR " + Disccount.toLocaleString() + ".00";
+  let printPrice = document.getElementById("printTot");
+  printPrice.innerHTML = "LKR " + amount.toLocaleString() + ".00";
+  let printDis = document.getElementById("printDis");
+  printDis.innerHTML = "LKR " + Discount.toLocaleString() + ".00";
 
-console.log(amount)
+  console.log(amount)
 }
-function btnPlaceOrder(){
-  window.location="placeOrder.html"
+
+function btnPlaceOrder() {
+    const orderInfo = {
+      items: itemList,
+      total: amount,
+      discount: Discount
+    };
+ amount = 0;
+ Discount = 0;
+ sessionStorage.setItem("orderData", JSON.stringify(orderInfo));
+
+ window.location = "placeOrder.html"
+  
+ window.onload = function () {
+    const data = JSON.parse(sessionStorage.getItem("orderData"));
+    if (data) {
+      // Fill table with items
+      data.items.forEach(item => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${item.name}</td>
+          <td>${item.qty}</td>
+          <td>${item.price}</td>
+        `;
+        document.getElementById("tblItemList").appendChild(row);
+      });
+console.log(data)
+}else {
+  alert("No order data found.");
 }
+ }
+}
+function btnCancelOrder() {
+  location.reload();
+}
+
+function showitemList( totalAmount, totaltDiscount) {
+  //window.location = "placeOrder.html"
+
+
+  let tableItem = document.getElementById("tblItemList");
+  
+  tableBody = `  <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Code</th>
+                        <th scope="col">Qty</th>
+                        <th scope="col">Unit Price</th>
+                      </tr>`
+
+  itemList.forEach((printItem ,index)=> {
+    tableBody += `<tr>
+                    <td>${index+1}</td>
+                    <td>${printItem.name}</td>
+                    <td>${printItem.code}</td>
+                    <td>${printItem.qty}</td>
+                    <td>${printItem.price}</td>
+                  
+                  </tr>`
+  });
+  tableItem.innerHTML=tableBody;
+
+ 
+ 
+}
+function btnCheckout() {
+
+} 
